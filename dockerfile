@@ -10,4 +10,4 @@ USER node
 
 WORKDIR /home/node/app
 
-CMD ["node", "index.js"]
+CMD ["npm", "run", "start:dev"]

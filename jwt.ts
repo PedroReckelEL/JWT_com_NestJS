@@ -1,6 +1,7 @@
 // Código responsável pela geração do token JWT:
 
 const crypt = require('crypto');
+const base64Url = require('base64-url');
 
 const header = {
     alg: 'HS256', // Hmac + sha256
@@ -11,20 +12,18 @@ const header = {
 const payload = {
     username: 'user1@user.com',
     name: 'Pedro Reckel',
-    exp: new Date().getTime, // timestamp 
+    exp: new Date().getTime(), // timestamp corrigido
 }
 
 const key = 'abcd123456';
 
-const headerEncoded = Buffer.from(JSON.stringify(header)).toString('base64');
-const payloadEncoded = Buffer.from(JSON.stringify(payload)).toString('base64');
+const headerEncoded = base64Url.encode(JSON.stringify(header));
+const payloadEncoded = base64Url.encode(JSON.stringify(payload));
 
-// console.log(headerEncoded, payloadEncoded);
-
-const signature =  crypt.createHmac('sha256', key)
+const signature = crypt.createHmac('sha256', key)
     .update(`${headerEncoded}.${payloadEncoded}`)
-    .digest('bin');
+    .digest('base64'); // corrigido para 'base64'
 
-const base64Url = require('base64-url');
+const jwtToken = `${headerEncoded}.${payloadEncoded}.${base64Url.encode(signature)}`;
 
-console.log(`${headerEncoded}.${payloadEncoded}.${base64Url.encode(signature)}`);
+console.log(jwtToken);
