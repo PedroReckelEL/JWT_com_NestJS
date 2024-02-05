@@ -24,7 +24,13 @@
 
 ## Rodar a aplicação
 
-Execute o comando:
+Execute o comando abaixo para instalar as dependências:
+
+```bash
+npm i
+```
+
+Execute o comando abaixo para subir o container:
 
 ```bash
 docker-compose up
